@@ -8,11 +8,9 @@ var TextTransmitter = (function() {
     var btn;
     var textbox;
     var warningbox;
-    var transmit;
 
     function onTransmitFinish() {
         textbox.focus();
-        btn.addEventListener('click', onClick, false);
         btn.disabled = false;
         var originalText = btn.innerText;
         btn.innerText = btn.getAttribute('data-quiet-sending-text');
@@ -20,8 +18,7 @@ var TextTransmitter = (function() {
     };
 
     function onClick(e) {
-        transmit = Quiet.transmitter({profile: profile.value, onFinish: onTransmitFinish});
-        e.target.removeEventListener(e.type, arguments.callee);
+        var transmit = Quiet.transmitter({profile: profile.value, onFinish: onTransmitFinish, clampFrame: false});
         e.target.disabled = true;
         var originalText = e.target.innerText;
         e.target.innerText = e.target.getAttribute('data-quiet-sending-text');

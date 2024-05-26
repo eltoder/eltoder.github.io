@@ -8,12 +8,14 @@ var TextReceiver = (function() {
     var btn, clearbtn, copybtn;
     var target;
     var content;
+    var successes, failures;
     var warningbox;
 
     function onReceive(recvPayload) {
         content = Quiet.mergeab(content, recvPayload);
         target.value = Quiet.ab2str(content);
-        warningbox.classList.add("hidden");
+        successes++;
+        updateWarning();
     };
 
     function onReceiverCreateFail(reason) {
@@ -24,8 +26,14 @@ var TextReceiver = (function() {
 
     function onReceiveFail(num_fails) {
         warningbox.classList.remove("hidden");
-        warningbox.textContent = "We didn't quite get that. It looks like you tried to transmit something. You may need to move the transmitter closer to the receiver and set the volume to 50%."
+        failures = num_fails;
+        updateWarning();
     };
+
+    function updateWarning() {
+        var total = successes + failures;
+        warningbox.textContent = `${failures}/${total} chunks failed (${(100*failures/total).toFixed()}%)`;
+    }
 
     function onQuietReady() {
         for (var name in Quiet.getProfiles()) {
@@ -40,16 +48,19 @@ var TextReceiver = (function() {
         e.target.disabled = true;
         e.target.innerText = e.target.getAttribute('data-quiet-recving-text');
         onClear(e);
-        Quiet.receiver({profile: profile.value,
-             onReceive: onReceive,
-             onCreateFail: onReceiverCreateFail,
-             onReceiveFail: onReceiveFail
+        Quiet.receiver({
+            profile: profile.value,
+            onReceive: onReceive,
+            onCreateFail: onReceiverCreateFail,
+            onReceiveFail: onReceiveFail
         });
     }
 
     function onClear(e) {
+        warningbox.classList.add("hidden");
         target.value = "Your received text will show up here. Waiting...";
         content = new ArrayBuffer(0);
+        successes = failures = 0;
     }
 
     function onCopy(e) {

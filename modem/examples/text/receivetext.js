@@ -25,6 +25,8 @@ var TextReceiver = (function() {
     };
 
     function onReceiveFail(num_fails) {
+        content = Quiet.mergeab(content, new TextEncoder().encode("<<<FAILED>>>"));
+        target.value = Quiet.ab2str(content);
         warningbox.classList.remove("hidden");
         failures = num_fails;
         updateWarning();

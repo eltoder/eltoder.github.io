@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Receive Text</title>
+
+    <script type="text/javascript" src="/modem/quiet.js"></script>
+    <script type="text/javascript" src="receivetext.js"></script>
+    <script async type="text/javascript" src="/modem/quiet-emscripten.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Receive Text</h1>
+      </header>
+      <section>
+      <div class="form-group">
+        <label for="profile">Profile:</label>
+        <select id="profile"></select>
+      </div>
+      <button type="button" class="btn btn-default" style="width:100%;margin:6px 0px 6px 0px" data-quiet-recv-button data-quiet-recving-text="Receiving...">Receive</button>
+      <button type="button" class="btn" style="width:100%" data-quiet-clear-button>Clear</button>
+      <button type="button" class="btn" style="width:100%;margin:6px 0px 6px 0px" data-quiet-copy-button>Copy</button>
+      <div class="hidden" data-quiet-warning></div>
+      <div class="form-group">
+        <textarea autofocus="true" autocapitalize="none" autocomplete="off" spellcheck="off" class="form-control" style="resize:none;width:100%" rows="30" data-quiet-receive-text-target></textarea>
+      </div>
+      </section>
+    </div>
+  </body>
+</html>
